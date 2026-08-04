@@ -1,0 +1,602 @@
+import { useState, useMemo } from "react";
+
+// ---------- Seed data ----------
+const START_BALANCE = 1000;
+
+const seedMembers = [
+  { id: "mike", name: "Mike", color: "bg-sky-500" },
+  { id: "dana", name: "Dana", color: "bg-violet-500" },
+  { id: "raj", name: "Raj", color: "bg-amber-500" },
+  { id: "sam", name: "Sam", color: "bg-teal-500" },
+  { id: "lena", name: "Lena", color: "bg-rose-500" },
+];
+
+const GOLF_FORMATS = ["Single hole", "9 holes", "18 holes"];
+
+// Markets are multi-outcome parimutuel pools.
+// kind "yesno": outcomes ["YES","NO"]. kind "golf": outcomes are player ids.
+const seedMarkets = [
+  {
+    id: 4,
+    kind: "golf",
+    format: "9 holes",
+    question: "Sunday front 9 at Brookside",
+    creator: "raj",
+    closes: "2026-08-02",
+    status: "open",
+    outcome: null,
+    outcomes: ["mike", "raj", "sam"],
+    bets: [
+      { user: "mike", pick: "mike", amount: 100 },
+      { user: "dana", pick: "raj", amount: 75 },
+      { user: "raj", pick: "raj", amount: 60 },
+      { user: "lena", pick: "sam", amount: 50 },
+    ],
+  },
+  {
+    id: 1,
+    kind: "yesno",
+    question: "Will Raj actually show up on time to Friday dinner?",
+    creator: "dana",
+    closes: "2026-08-01",
+    status: "open",
+    outcome: null,
+    outcomes: ["YES", "NO"],
+    bets: [
+      { user: "mike", pick: "NO", amount: 120 },
+      { user: "lena", pick: "NO", amount: 80 },
+      { user: "raj", pick: "YES", amount: 200 },
+      { user: "sam", pick: "NO", amount: 60 },
+    ],
+  },
+  {
+    id: 2,
+    kind: "yesno",
+    question: "Does Sam's sourdough starter survive the month?",
+    creator: "mike",
+    closes: "2026-08-31",
+    status: "open",
+    outcome: null,
+    outcomes: ["YES", "NO"],
+    bets: [
+      { user: "sam", pick: "YES", amount: 150 },
+      { user: "dana", pick: "YES", amount: 50 },
+      { user: "mike", pick: "NO", amount: 100 },
+    ],
+  },
+  {
+    id: 3,
+    kind: "golf",
+    format: "18 holes",
+    question: "Saturday 18 at Pine Valley, gross score",
+    creator: "sam",
+    closes: "2026-07-25",
+    status: "resolved",
+    outcome: "sam",
+    outcomes: ["mike", "sam", "lena"],
+    bets: [
+      { user: "sam", pick: "sam", amount: 100 },
+      { user: "lena", pick: "lena", amount: 80 },
+      { user: "mike", pick: "mike", amount: 90 },
+      { user: "dana", pick: "sam", amount: 40 },
+    ],
+  },
+];
+
+// ---------- Parimutuel math ----------
+function pools(mkt) {
+  const p = Object.fromEntries(mkt.outcomes.map((o) => [o, 0]));
+  for (const b of mkt.bets) p[b.pick] += b.amount;
+  const total = mkt.bets.reduce((s, b) => s + b.amount, 0);
+  return { p, total };
+}
+
+// Winners split the whole pot pro-rata. If nobody bet the winning outcome, refund all.
+function betPayout(bet, mkt, outcome) {
+  const { p, total } = pools(mkt);
+  const winPool = p[outcome] || 0;
+  if (winPool === 0) return bet.amount; // refund
+  if (bet.pick !== outcome) return 0;
+  return (bet.amount / winPool) * total;
+}
+
+function computeBalances(members, markets) {
+  const bal = Object.fromEntries(members.map((m) => [m.id, START_BALANCE]));
+  for (const mkt of markets) {
+    for (const bet of mkt.bets) {
+      bal[bet.user] -= bet.amount;
+      if (mkt.status === "resolved") bal[bet.user] += betPayout(bet, mkt, mkt.outcome);
+      else if (mkt.status === "voided") bal[bet.user] += bet.amount;
+    }
+  }
+  return bal;
+}
+
+// ---------- UI bits ----------
+const fmt = (n) => Math.round(n).toLocaleString();
+
+function Avatar({ member, size = "sm" }) {
+  const s = size === "xs" ? "w-4 h-4 text-[9px]" : "w-6 h-6 text-[11px]";
+  return (
+    <span
+      className={`${s} ${member.color} rounded-full inline-flex items-center justify-center font-bold text-white shrink-0`}
+    >
+      {member.name[0]}
+    </span>
+  );
+}
+
+function Tag({ children, tone = "neutral" }) {
+  const tones = {
+    neutral: "text-zinc-400 border-zinc-700",
+    green: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
+    gold: "text-amber-300 border-amber-500/30 bg-amber-500/10",
+  };
+  return (
+    <span
+      className={`text-[10px] uppercase tracking-widest font-semibold px-2 py-0.5 rounded border ${tones[tone]}`}
+    >
+      {children}
+    </span>
+  );
+}
+
+export default function GroupChatMarkets() {
+  const [members] = useState(seedMembers);
+  const [markets, setMarkets] = useState(seedMarkets);
+  const [me, setMe] = useState("mike");
+  const [tab, setTab] = useState("markets");
+  const [toast, setToast] = useState(null);
+  const [betInputs, setBetInputs] = useState({});
+
+  // create-form state
+  const [newKind, setNewKind] = useState("yesno");
+  const [newQ, setNewQ] = useState("");
+  const [newClose, setNewClose] = useState("");
+  const [newFormat, setNewFormat] = useState("18 holes");
+  const [newPlayers, setNewPlayers] = useState([]);
+
+  const balances = useMemo(() => computeBalances(members, markets), [members, markets]);
+  const myBalance = balances[me];
+  const memberById = Object.fromEntries(members.map((m) => [m.id, m]));
+
+  const outcomeLabel = (mkt, o) => (mkt.kind === "golf" ? memberById[o].name : o);
+
+  const flash = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 2500);
+  };
+
+  const placeBet = (marketId) => {
+    const input = betInputs[marketId];
+    const amount = Math.floor(Number(input?.amount));
+    if (!input?.pick || !amount || amount <= 0) return flash("Pick an outcome and a valid amount");
+    if (amount > myBalance) return flash("Not enough points");
+    setMarkets((ms) =>
+      ms.map((m) =>
+        m.id === marketId ? { ...m, bets: [...m.bets, { user: me, pick: input.pick, amount }] } : m
+      )
+    );
+    setBetInputs((b) => ({ ...b, [marketId]: { pick: null, amount: "" } }));
+    flash(`Bet placed · ${fmt(amount)} pts`);
+  };
+
+  const resolve = (marketId, outcome) => {
+    setMarkets((ms) =>
+      ms.map((m) => (m.id === marketId ? { ...m, status: "resolved", outcome } : m))
+    );
+    flash("Resolved. Pot paid out.");
+  };
+
+  const voidMarket = (marketId) => {
+    setMarkets((ms) => ms.map((m) => (m.id === marketId ? { ...m, status: "voided" } : m)));
+    flash("Market voided, all stakes refunded");
+  };
+
+  const togglePlayer = (id) =>
+    setNewPlayers((ps) => (ps.includes(id) ? ps.filter((x) => x !== id) : [...ps, id]));
+
+  const createMarket = () => {
+    if (newKind === "golf" && newPlayers.length < 2) return flash("Pick at least 2 players");
+    const question =
+      newQ.trim() ||
+      (newKind === "golf"
+        ? `${newFormat}: ${newPlayers.map((p) => memberById[p].name).join(" vs ")}`
+        : "");
+    if (!question) return flash("Write a question first");
+    setMarkets((ms) => [
+      {
+        id: Math.max(...ms.map((m) => m.id)) + 1,
+        kind: newKind,
+        format: newKind === "golf" ? newFormat : undefined,
+        question,
+        creator: me,
+        closes: newClose || "2026-12-31",
+        status: "open",
+        outcome: null,
+        outcomes: newKind === "golf" ? [...newPlayers] : ["YES", "NO"],
+        bets: [],
+      },
+      ...ms,
+    ]);
+    setNewQ("");
+    setNewClose("");
+    setNewPlayers([]);
+    setTab("markets");
+    flash("Market created");
+  };
+
+  const leaderboard = [...members]
+    .map((m) => ({ ...m, balance: balances[m.id], pnl: balances[m.id] - START_BALANCE }))
+    .sort((a, b) => b.balance - a.balance);
+
+  const inputCls =
+    "bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm placeholder-zinc-600 focus:outline-none focus:border-zinc-600";
+
+  return (
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 antialiased">
+      {/* Top bar */}
+      <div className="border-b border-zinc-900 bg-zinc-950/90 sticky top-0 z-10 backdrop-blur">
+        <div className="max-w-2xl mx-auto px-5 py-4 flex items-center justify-between">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.25em] text-zinc-500 font-semibold">
+              The Group Chat
+            </div>
+            <div className="text-lg font-semibold tracking-tight">Exchange</div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="text-right">
+              <div className="text-[10px] uppercase tracking-widest text-zinc-500">Balance</div>
+              <div className="font-semibold tabular-nums">{fmt(myBalance)}</div>
+            </div>
+            <select
+              value={me}
+              onChange={(e) => setMe(e.target.value)}
+              className="bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-sm focus:outline-none"
+            >
+              {members.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-2xl mx-auto px-5 py-5">
+        {/* Tabs */}
+        <div className="flex gap-6 mb-6 border-b border-zinc-900">
+          {[
+            ["markets", "Markets"],
+            ["create", "New market"],
+            ["leaderboard", "Standings"],
+          ].map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setTab(key)}
+              className={`pb-2.5 text-sm font-medium border-b-2 -mb-px transition-colors ${
+                tab === key
+                  ? "border-zinc-100 text-zinc-100"
+                  : "border-transparent text-zinc-500 hover:text-zinc-300"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {toast && (
+          <div className="mb-4 px-3.5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-sm text-zinc-300">
+            {toast}
+          </div>
+        )}
+
+        {/* Create */}
+        {tab === "create" && (
+          <div className="space-y-5">
+            <div>
+              <div className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold mb-2">
+                Type
+              </div>
+              <div className="flex gap-2">
+                {[
+                  ["yesno", "Yes / No"],
+                  ["golf", "Golf match"],
+                ].map(([k, label]) => (
+                  <button
+                    key={k}
+                    onClick={() => setNewKind(k)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
+                      newKind === k
+                        ? "bg-zinc-100 border-zinc-100 text-zinc-950"
+                        : "bg-transparent border-zinc-800 text-zinc-400 hover:border-zinc-600"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {newKind === "golf" && (
+              <>
+                <div>
+                  <div className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold mb-2">
+                    Format
+                  </div>
+                  <div className="flex gap-2">
+                    {GOLF_FORMATS.map((f) => (
+                      <button
+                        key={f}
+                        onClick={() => setNewFormat(f)}
+                        className={`px-4 py-2 rounded-lg text-sm border transition-colors ${
+                          newFormat === f
+                            ? "bg-zinc-100 border-zinc-100 text-zinc-950 font-medium"
+                            : "bg-transparent border-zinc-800 text-zinc-400 hover:border-zinc-600"
+                        }`}
+                      >
+                        {f}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold mb-2">
+                    Players
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {members.map((m) => (
+                      <button
+                        key={m.id}
+                        onClick={() => togglePlayer(m.id)}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm border transition-colors ${
+                          newPlayers.includes(m.id)
+                            ? "bg-zinc-100 border-zinc-100 text-zinc-950 font-medium"
+                            : "bg-transparent border-zinc-800 text-zinc-400 hover:border-zinc-600"
+                        }`}
+                      >
+                        <Avatar member={m} size="xs" />
+                        {m.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            <div>
+              <div className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold mb-2">
+                {newKind === "golf" ? "Title (optional)" : "Question"}
+              </div>
+              <input
+                value={newQ}
+                onChange={(e) => setNewQ(e.target.value)}
+                placeholder={
+                  newKind === "golf"
+                    ? "Skins at Brookside, back 9"
+                    : "Will Dana cancel plans this weekend?"
+                }
+                className={`w-full ${inputCls}`}
+              />
+            </div>
+
+            <div>
+              <div className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold mb-2">
+                Closes
+              </div>
+              <input
+                type="date"
+                value={newClose}
+                onChange={(e) => setNewClose(e.target.value)}
+                className={inputCls}
+              />
+            </div>
+
+            <p className="text-xs text-zinc-600 leading-relaxed">
+              Everyone bets into one pot. On resolution, whoever backed the winning outcome splits the
+              whole pot in proportion to their stake. The creator calls the result.
+            </p>
+
+            <button
+              onClick={createMarket}
+              className="w-full bg-zinc-100 hover:bg-white text-zinc-950 py-2.5 rounded-lg text-sm font-semibold transition-colors"
+            >
+              Create market
+            </button>
+          </div>
+        )}
+
+        {/* Standings */}
+        {tab === "leaderboard" && (
+          <div>
+            {leaderboard.map((m, i) => (
+              <div
+                key={m.id}
+                className="flex items-center justify-between py-3.5 border-b border-zinc-900 last:border-0"
+              >
+                <div className="flex items-center gap-3.5">
+                  <span className="w-5 text-zinc-600 text-sm tabular-nums">{i + 1}</span>
+                  <Avatar member={m} />
+                  <span className="text-sm font-medium">
+                    {m.name}
+                    {m.id === me && <span className="text-zinc-500 font-normal"> · you</span>}
+                  </span>
+                </div>
+                <div className="text-right">
+                  <div className="font-semibold tabular-nums text-sm">{fmt(m.balance)}</div>
+                  <div
+                    className={`text-xs tabular-nums ${
+                      m.pnl >= 0 ? "text-emerald-400" : "text-red-400"
+                    }`}
+                  >
+                    {m.pnl >= 0 ? "+" : "−"}
+                    {fmt(Math.abs(m.pnl))}
+                  </div>
+                </div>
+              </div>
+            ))}
+            <p className="text-xs text-zinc-600 mt-4">
+              Points staked in open markets are out of your balance until resolution.
+            </p>
+          </div>
+        )}
+
+        {/* Markets */}
+        {tab === "markets" &&
+          markets.map((mkt) => {
+            const { p, total } = pools(mkt);
+            const input = betInputs[mkt.id] || { pick: null, amount: "" };
+            const isCreator = mkt.creator === me;
+            const myStake = mkt.bets.filter((b) => b.user === me).reduce((s, b) => s + b.amount, 0);
+            const settled = mkt.status !== "open";
+            return (
+              <div
+                key={mkt.id}
+                className={`border border-zinc-900 rounded-xl p-5 mb-4 ${
+                  settled ? "opacity-70" : "bg-zinc-900/40"
+                }`}
+              >
+                {/* Header row */}
+                <div className="flex justify-between items-start gap-3">
+                  <h3 className="font-medium leading-snug text-[15px]">{mkt.question}</h3>
+                  <div className="flex gap-1.5 shrink-0">
+                    {mkt.kind === "golf" && <Tag>{mkt.format}</Tag>}
+                    {mkt.status === "open" && <Tag tone="green">Open</Tag>}
+                    {mkt.status === "resolved" && (
+                      <Tag tone="gold">{outcomeLabel(mkt, mkt.outcome)}</Tag>
+                    )}
+                    {mkt.status === "voided" && <Tag>Voided</Tag>}
+                  </div>
+                </div>
+                <div className="text-xs text-zinc-600 mt-1.5 mb-4">
+                  {memberById[mkt.creator].name} · closes {mkt.closes} ·{" "}
+                  <span className="text-zinc-400 tabular-nums">{fmt(total)} pts</span> in pot
+                </div>
+
+                {/* Odds per outcome */}
+                <div className="space-y-2">
+                  {mkt.outcomes.map((o) => {
+                    const share = total === 0 ? 1 / mkt.outcomes.length : (p[o] || 0) / total;
+                    const color =
+                      mkt.kind === "yesno"
+                        ? o === "YES"
+                          ? "bg-emerald-400"
+                          : "bg-red-400"
+                        : memberById[o].color;
+                    return (
+                      <div key={o} className="flex items-center gap-3 text-xs">
+                        <span className="w-20 truncate text-zinc-300 font-medium">
+                          {outcomeLabel(mkt, o)}
+                        </span>
+                        <div className="flex-1 h-1 rounded-full bg-zinc-800 overflow-hidden">
+                          <div
+                            className={`h-full ${color} rounded-full`}
+                            style={{ width: `${share * 100}%` }}
+                          />
+                        </div>
+                        <span className="w-9 text-right text-zinc-500 tabular-nums">
+                          {Math.round(share * 100)}%
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Bets */}
+                {mkt.bets.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {mkt.bets.map((b, i) => (
+                      <span
+                        key={i}
+                        className="flex items-center gap-1.5 text-xs px-2 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-400"
+                      >
+                        <Avatar member={memberById[b.user]} size="xs" />
+                        <span className="tabular-nums">{fmt(b.amount)}</span> on{" "}
+                        {outcomeLabel(mkt, b.pick)}
+                        {mkt.status === "resolved" && b.pick === mkt.outcome && (
+                          <span className="text-amber-300 tabular-nums">
+                            → {fmt(betPayout(b, mkt, mkt.outcome))}
+                          </span>
+                        )}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Bet controls */}
+                {mkt.status === "open" && (
+                  <div className="mt-4 pt-4 border-t border-zinc-900 flex flex-wrap items-center gap-2">
+                    {mkt.outcomes.map((o) => (
+                      <button
+                        key={o}
+                        onClick={() =>
+                          setBetInputs((b) => ({ ...b, [mkt.id]: { ...input, pick: o } }))
+                        }
+                        className={`px-3.5 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
+                          input.pick === o
+                            ? "bg-zinc-100 border-zinc-100 text-zinc-950"
+                            : "bg-transparent border-zinc-800 text-zinc-400 hover:border-zinc-600"
+                        }`}
+                      >
+                        {outcomeLabel(mkt, o)}
+                      </button>
+                    ))}
+                    <input
+                      type="number"
+                      min="1"
+                      value={input.amount}
+                      onChange={(e) =>
+                        setBetInputs((b) => ({ ...b, [mkt.id]: { ...input, amount: e.target.value } }))
+                      }
+                      placeholder="pts"
+                      className={`w-20 ${inputCls} py-1.5`}
+                    />
+                    <button
+                      onClick={() => placeBet(mkt.id)}
+                      className="px-4 py-1.5 rounded-lg text-sm font-semibold bg-emerald-500 hover:bg-emerald-400 text-zinc-950 transition-colors"
+                    >
+                      Bet
+                    </button>
+                    {myStake > 0 && (
+                      <span className="text-xs text-zinc-600 tabular-nums ml-auto">
+                        your stake {fmt(myStake)}
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {/* Resolution (creator only) */}
+                {mkt.status === "open" && isCreator && (
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <span className="text-[10px] uppercase tracking-widest text-zinc-600 font-semibold">
+                      Settle
+                    </span>
+                    {mkt.outcomes.map((o) => (
+                      <button
+                        key={o}
+                        onClick={() => resolve(mkt.id, o)}
+                        className="px-2.5 py-1 rounded-md text-xs border border-zinc-800 text-zinc-400 hover:border-emerald-500/50 hover:text-emerald-400 transition-colors"
+                      >
+                        {outcomeLabel(mkt, o)}
+                      </button>
+                    ))}
+                    <button
+                      onClick={() => voidMarket(mkt.id)}
+                      className="px-2.5 py-1 rounded-md text-xs border border-zinc-800 text-zinc-600 hover:border-zinc-600 transition-colors"
+                    >
+                      Void
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+
+        <p className="text-center text-[11px] text-zinc-700 mt-8 mb-3 tracking-wide">
+          Parimutuel pools · play money · winners split the pot pro-rata
+        </p>
+      </div>
+    </div>
+  );
+}
