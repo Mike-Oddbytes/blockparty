@@ -6,6 +6,20 @@ verified, not only what shipped.
 Note this repo holds HB Daily. The `group-chat-markets.jsx` and `PLAN.md` files are
 leftovers from I Win, which now lives in its own repo.
 
+## Aug 7 2026: Session 1B, share URL set
+
+**Share links now point at the live game.** `SITE_URL` in `hb-daily.html` changed
+from the placeholder `hbdaily.com` to the full live address,
+`https://mike-oddbytes.github.io/blockparty/hb-daily.html`, and the stale
+"placeholder" comment on that line was updated. Commit `135d2ce`.
+
+The full path matters: the repo's front page (`index.html`) is the leftover I Win
+prototype, so a link to just the site root would drop people into the wrong app.
+
+**Verified on the live deployed page**, not just in the code. Opened it in preview
+mode and confirmed the share text ends with the live address as a tappable https
+link. Nothing else was touched; the word list (1C) and seeding copy are still open.
+
 ## Aug 6 2026: working instructions corrected, analytics parked
 
 **No code changed.** `hb-daily.html` and `hb-words.csv` were not touched.
