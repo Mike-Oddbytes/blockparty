@@ -6,6 +6,50 @@ verified, not only what shipped.
 Note this repo holds HB Daily. The `group-chat-markets.jsx` and `PLAN.md` files are
 leftovers from I Win, which now lives in its own repo.
 
+## Aug 7 2026: word list fact-checked, resequenced, extended to 90 days (Session 1C)
+
+**The word list now covers 90 days**, up from 56, in both `hb-words.csv` and the WORDS
+array inside `hb-daily.html`, and the two are in step. Commits `1dc0ce8` (csv),
+`34b1640` (html), `979a004` (QA script).
+
+**All 56 original blurbs were fact-checked** against primary sources. Six were wrong
+and got corrected: EDISON (school named for the company that donated the land, not the
+neighborhood), HENRY (town took the name in 1903, not 1904), DERRICK (working pumps
+remain, so "recently disappeared" was wrong), MEADOW (the airport site became homes;
+Meadowlark golf course predates the airport), PASEA (opened 2016, not 2015 with Pacific
+City), FURUTA (farm bought 1908, bungalow built 1912). Seven more were softened where a
+claim was loose or unverifiable: MAIN (the "five blocks" count could not be confirmed),
+PLOVER, WARNER, STRAND, MARINA, AIRSHOW (the promoter's "draws millions" removed),
+CRUISE. Everything else checked out, including all the previously flagged claims: pier
+length and dates, the 1920 oil strike, Sunset Beach 2011, Freeth 1914, the Central
+Library Neutra attribution, Meadowlark closing 1989.
+
+**The difficulty ramp was resequenced.** Days 1 to 4 are untouched because they have
+already been played since the Aug 4 launch. Days 5 to 90 were reordered: common words
+early, well-known local names in the middle, deep-cut proper nouns (BENSON, TALBERT,
+PERQS, WIEDER, PASEA, GILBERT, FREETH, FURUTA) spaced at least three days apart in the
+back half with easier days between.
+
+**34 new words were added**, each with a fact-checked blurb: GLOOM, OPEN, WHALE, MUSEUM,
+SANDBAR, DONUT, SATURN, WIPEOUT, CELERY, TUESDAY, CUTBACK, SKIM, BLUFFS, PELICAN, JACKS,
+GRUNION, BENSON, DWIGHT, MONARCH, PERQS, CORKY, WIEDER, SHUFFLE, KANOA, GUSHER, OLIVE,
+SANCHOS, GILBERT, BEAR, CORBINA, WORTHY, RUBYS, DWYER, AMIGOS. Candidates that failed
+research were dropped, including HEIL (fact checked out but the word is a liability in a
+typing game) and several street names with no verifiable story.
+
+**QA now exists for the word list.** `node scripts/qa-words.mjs` checks the CSV format
+(90 days, 4 to 7 letter words, unique, day sequence, length column, no em dashes or
+emojis) and verifies the CSV and the HTML array match exactly, since nothing else
+enforces that. It passed against the committed files.
+
+**Gotcha worth recording:** `raw.githubusercontent.com` served a stale `hb-daily.html`
+that was missing the 1B share URL change. Fetching through `api.github.com` with the raw
+media type got the current file, so the 1B work was preserved. Future sessions should
+not trust raw URLs to be fresh within a few minutes of a commit.
+
+**Not verified here:** the live GitHub Pages deployment after these commits. Game logic
+was not touched, only the WORDS data block.
+
 ## Aug 7 2026: Session 1B, share URL set
 
 **Share links now point at the live game.** `SITE_URL` in `hb-daily.html` changed
