@@ -1,57 +1,91 @@
 day,word,length,category,clue,blurb
-1,SURF,4,Culture,"The city's trademarked identity","Surf City USA. HB fought Santa Cruz for the trademark and won it in the 2000s. Day one had to be this."
+1,SURF,4,Culture,The city's trademarked identity,Surf City USA. HB fought Santa Cruz for the trademark and won it in the 2000s. Day one had to be this.
 2,PIER,4,Icons,"1,850 feet of HB's most famous landmark","The HB Pier stretches 1,850 feet, one of the longest on the West Coast. First built in 1904, rebuilt in 1992 after winter storms took it down."
 3,DUKE,4,History,"Surfing's godfather, and a restaurant at the pier","Duke Kahanamoku, the father of modern surfing, lends his name to the restaurant at the base of the pier."
-4,BOLSA,5,Nature,"Chica's first name","The Bolsa Chica Ecological Reserve: 1,300+ acres of restored wetlands and one of SoCal's best birding spots."
-5,SWELL,5,Surf,"What every surfer checks before coffee","South swells light up the pier bowl all summer. Surfline, which calls the forecast for most of the world, is headquartered right here in HB."
-6,OILERS,6,Schools,"HB High's mascot","The Huntington Beach High Oilers, named for the 1920s oil boom that briefly made this town a forest of derricks."
-7,SUNSET,6,Places,"The beach HB annexed in 2011","Sunset Beach kept its funky water-tower-house charm after joining HB in 2011."
-8,GROM,4,Surf slang,"A very young surfer","Every HB grom dreams of a US Open heat at the pier southside."
-9,MAIN,4,Streets,"The street where downtown happens","Main Street: five blocks from PCH to the fountain, home to the Surfing Walk of Fame."
-10,STOKED,6,Surf slang,"The only acceptable mood after a good session","The official emotional state of Huntington Beach."
-11,GOLDEN,6,Streets,"West of this street, a college shares the name","Goldenwest Street runs the length of the city, and Golden West College has anchored it since 1966."
-12,TOWER,5,Beach,"Lifeguards watch from these","HB Marine Safety staffs towers along 3.5 miles of city beach. Tower Zero sits on the pier itself."
-13,SUGAR,5,Eats,"___ Shack, the Main Street breakfast institution","The Sugar Shack Café has fed surfers on Main Street since 1967. Get there before the dawn patrol crowd."
-14,KOOK,4,Surf slang,"What you don't want to be called in the lineup","Universal surf-speak for someone who doesn't know what they're doing. Don't ditch your board on a crowded day."
-15,HARBOUR,7,Places,"HB's waterfront neighborhood, with a fancy U","Huntington Harbour, the only part of town that spells itself the British way. Five islands, endless docks."
-16,TERN,4,Nature,"Small seabird nesting protected at Bolsa Chica","California least terns nest at Bolsa Chica every summer. The fenced-off sand isn't for you, it's for them."
-17,EDISON,6,Schools,"High school named for the power plant next door","Edison High Chargers, named for the neighborhood around the power plant on Newland."
-18,BONFIRE,7,Beach,"What the rings south of the pier are for","HB has hundreds of beach fire rings, among the last remaining in Southern California. Get there early on summer weekends."
-19,SHAKA,5,Culture,"The hand sign that means it's all good","Thumb and pinky out. If you know, you know."
-20,CRUDE,5,History,"What Standard Oil struck here in 1920","The 1920 oil strike transformed a sleepy beach town. At the peak, derricks outnumbered houses."
-21,PACIFIC,7,Places,"The ocean, the coast highway, and the mall","Pacific City opened in 2015 on the bluff overlooking the pier, on land that sat empty for decades."
-22,JETTY,5,Surf,"Rock structure that shapes the waves near the river mouth","The Santa Ana River jetties mark HB's southern surf boundary, and some of its most consistent waves."
-23,HENRY,5,History,"The Huntington the city is named for","Henry Huntington, the railroad magnate whose Pacific Electric line put the town on the map. It took his name in 1904."
-24,GNARLY,6,Surf slang,"Heavy, intense, or just impressive","Applies equally to double-overhead days and parking on Main Street in July."
-25,PLOVER,6,Nature,"Tiny protected shorebird on HB sand","Western snowy plovers are why parts of the beach are roped off. They weigh less than a golf ball."
-26,VANS,4,Events,"Title sponsor of the US Open of Surfing","The Vans US Open of Surfing, the world's biggest surf competition, takes over the pier southside every summer."
-27,WARNER,6,Streets,"The avenue that takes you to Sunset Beach","Warner Avenue runs from the harbour to the 405. The Warner/PCH corner is your gateway to Sunset Beach."
-28,WETSUIT,7,Surf,"Year-round necessity in HB water","The Pacific here rarely tops 70 degrees. Rubber is not optional most of the year."
-29,STRAND,6,Places,"The shopping block at 5th and PCH","The Strand at Downtown HB, the 2009 development that brought hotels and restaurants to 5th and PCH."
-30,DAWN,4,Surf,"___ patrol: the earliest session","Dawn patrol: in the water before work, before crowds, before the wind."
-31,MARINA,6,Schools,"Vikings territory","Marina High Vikings, repping the northwest side since 1963."
-32,AIRSHOW,7,Events,"Jets over the pier every fall","The Pacific Airshow draws millions to the waterfront each fall. The Thunderbirds and Snowbirds use the pier as their centerline."
-33,LEASH,5,Surf,"The cord that keeps your board from becoming a missile","Invented in the 1970s, mandatory etiquette at a crowded pier."
-34,TROLLEY,7,History,"How Angelenos reached HB before freeways","Pacific Electric Red Cars ran from LA to the HB pier. The trolley made this a beach-day town a century before the 405."
-35,EGRET,5,Nature,"Tall white wader in the wetlands","Snowy and great egrets stalk the Bolsa Chica channels at low tide."
-36,SLATER,6,Streets,"An HB avenue, not the 11-time world champ","Slater Avenue crosses the whole city. No relation to Kelly, but tell your out-of-town friends whatever you want."
-37,GLASSY,6,Surf,"Perfect no-wind morning conditions","When the surface goes glassy at first light, everything else can wait."
-38,NEWLAND,7,History,"HB's oldest house sits on this family's land","The Newland House, built in 1898, is the oldest residence in HB, kept by the historical society at Beach and Adams."
-39,TIDE,4,Surf,"Check the chart before you paddle out","Tide swings shape everything here, from the pier bowl to Bolsa Chica birding."
-40,LIBRARY,7,Places,"The Central Park building with indoor fountains","HB's Central Library, designed by the Neutra firm, opened in 1975 with flowing indoor fountains. One of the most beautiful public buildings in OC."
-41,LOCALS,6,Culture,"Who gets the best peaks at dawn","Every break has its regulars. Respect goes a long way at the pier."
-42,DERRICK,7,History,"The oil structures that once lined PCH","Oil derricks covered HB's coastline for decades. The last working pumps only recently disappeared from the bluffs."
-43,KELP,4,Nature,"Underwater forest offshore","Kelp beds offshore keep the water rich, the fishing good, and occasionally wrap your leash."
-44,CENTRAL,7,Places,"HB's 350-acre park","Central Park: about 350 acres of trails, lakes, a disc golf course, and an equestrian center. One of the biggest city parks in OC."
-45,PARADE,6,Events,"HB's Fourth of July tradition since 1904","The HB Fourth of July Parade has run since 1904 and ranks among the largest Independence Day parades in the West."
-46,BARREL,6,Surf,"Inside the wave, the whole point","Getting barreled at the pier on a south swell is the local rite of passage."
-47,SHIPLEY,7,Nature,"Central Park's nature center","The Shipley Nature Center, 18 acres of restored habitat inside Central Park, volunteer-run and free."
-48,FAME,4,Culture,"Surfing Walk of ___, on Main Street","The Surfing Walk of Fame at PCH and Main has honored surf legends since 1994. Check the sidewalk next time you cross."
-49,MEADOW,6,History,"___lark: HB's former airport","Meadowlark Airport operated until 1989. Now it's a golf course and neighborhood, but old-timers remember planes over Warner."
-50,FREETH,6,History,"Gave HB's first surfing demonstration in 1914","George Freeth, 'the man who can walk on water,' demonstrated surfing at the pier's 1914 rededication. HB's surf story starts with him."
-51,LINEUP,6,Surf,"Where surfers wait their turn","The pier lineup is a hierarchy. Watch before you paddle to the peak."
-52,CRUISE,6,Events,"___ of Lights: December in the harbour","The Cruise of Lights boat tours have toured Huntington Harbour's decorated waterfront homes every December for over 50 years."
-53,TALBERT,7,Streets,"Avenue named for an early HB family","Tom Talbert, early county supervisor and HB pioneer. His name is on the avenue and half the old maps."
-54,DEAN,4,Culture,"Jan's partner on the song that named the city","Jan and Dean's 1963 hit Surf City gave HB its nickname. Two girls for every boy."
-55,PASEA,5,Places,"The hotel on the bluff at Pacific City","The Paséa Hotel opened with Pacific City in 2015. Best rooftop view of the pier in town."
-56,FURUTA,6,History,"Family farm at Historic Wintersburg","The Furuta family farmed at Wintersburg from 1912. The site is one of the last surviving pre-WWII Japanese American settlements in the country."
+4,BOLSA,5,Nature,Chica's first name,"The Bolsa Chica Ecological Reserve: 1,300+ acres of restored wetlands and one of SoCal's best birding spots."
+5,SWELL,5,Surf,What every surfer checks before coffee,"South swells light up the pier bowl all summer. Surfline, which calls the forecast for most of the world, is headquartered right here in HB."
+6,MAIN,4,Streets,The street where downtown happens,"Main Street: from PCH up to the fountain, home to the Surfing Walk of Fame."
+7,GLOOM,5,Nature,June's gray morning blanket,"June Gloom is the marine layer that parks over the coast on late spring mornings. Gray until noon, then the sun shows up like nothing happened."
+8,GROM,4,Surf slang,A very young surfer,Every HB grom dreams of a US Open heat at the pier southside.
+9,TOWER,5,Beach,Lifeguards watch from these,HB Marine Safety staffs towers along 3.5 miles of city beach. Tower Zero sits on the pier itself.
+10,SUGAR,5,Eats,"___ Shack, the Main Street breakfast institution",The Sugar Shack Cafe has fed surfers on Main Street since 1967. Get there before the dawn patrol crowd.
+11,STOKED,6,Surf slang,The only acceptable mood after a good session,The official emotional state of Huntington Beach.
+12,SUNSET,6,Places,The beach HB annexed in 2011,Sunset Beach kept its funky water-tower-house charm after joining HB in 2011.
+13,KOOK,4,Surf slang,What you don't want to be called in the lineup,Universal surf-speak for someone who doesn't know what they're doing. Don't ditch your board on a crowded day.
+14,OPEN,4,Events,The summer contest that takes over the pier,"The US Open of Surfing traces back to 1959, when the first West Coast Surfing Championships ran on the same sand by the pier. It has grown into the biggest surf contest in the world."
+15,GOLDEN,6,Streets,"West of this street, a college shares the name","Goldenwest Street runs the length of the city, and Golden West College has anchored it since 1966."
+16,DAWN,4,Surf,___ patrol: the earliest session,"Dawn patrol: in the water before work, before crowds, before the wind."
+17,OILERS,6,Schools,HB High's mascot,"The Huntington Beach High Oilers, named for the 1920s oil boom that briefly made this town a forest of derricks."
+18,WHALE,5,Nature,Winter giant passing offshore,Gray whales stream past Huntington Beach between December and April on the run between Alaska and Baja. On a clear winter day you can spot a spout from the end of the pier.
+19,BONFIRE,7,Beach,What the rings south of the pier are for,"HB has hundreds of beach fire rings, among the last remaining in Southern California. Get there early on summer weekends."
+20,CRUDE,5,History,What Standard Oil struck here in 1920,"The 1920 oil strike transformed a sleepy beach town. At the peak, derricks outnumbered houses."
+21,SHAKA,5,Culture,The hand sign that means it's all good,"Thumb and pinky out. If you know, you know."
+22,MUSEUM,6,Culture,"Where Surf City keeps its history, on Olive Avenue","The International Surfing Museum opened in 1987 and has called Olive Avenue home since 1990. Boards, photos and memorabilia tell how a beach town became Surf City USA."
+23,TIDE,4,Surf,Check the chart before you paddle out,"Tide swings shape everything here, from the pier bowl to Bolsa Chica birding."
+24,PARADE,6,Events,HB's Fourth of July tradition since 1904,The HB Fourth of July Parade has run since 1904 and ranks among the largest Independence Day parades in the West.
+25,KELP,4,Nature,Underwater forest offshore,"Kelp beds offshore keep the water rich, the fishing good, and occasionally wrap your leash."
+26,GNARLY,6,Surf slang,"Heavy, intense, or just impressive",Applies equally to double-overhead days and parking on Main Street in July.
+27,EDISON,6,Schools,High school that shares its name with the power company,"Edison High Chargers, named for Southern California Edison, which donated the land the school sits on. The company's power plant still looms over Newland."
+28,PACIFIC,7,Places,"The ocean, the coast highway, and the mall","Pacific City opened in 2015 on the bluff overlooking the pier, on land that sat empty for decades."
+29,SANDBAR,7,Surf,The hidden architecture under every HB peak,"Huntington Beach is a beach break, so its waves rise over sandbars that storms and tides constantly rearrange. When a good bar sets up, word gets around fast."
+30,LIBRARY,7,Places,The Central Park building with indoor fountains,"HB's Central Library, designed by the Neutra firm, opened in 1975 with flowing indoor fountains. One of the most beautiful public buildings in OC."
+31,DONUT,5,Events,Fuel for the Saturday sunrise car meet,"Since the mid 1980s, hot rods and woodies have filled the corner of Adams and Magnolia at dawn every Saturday for Donut Derelicts. No fees, no trophies, just coffee and chrome."
+32,LEASH,5,Surf,The cord that keeps your board from becoming a missile,"Invented in the 1970s, mandatory etiquette at a crowded pier."
+33,CENTRAL,7,Places,HB's 350-acre park,"Central Park: about 350 acres of trails, lakes, a disc golf course, and an equestrian center. One of the biggest city parks in OC."
+34,TERN,4,Nature,Small seabird nesting protected at Bolsa Chica,"California least terns nest at Bolsa Chica every summer. The fenced-off sand isn't for you, it's for them."
+35,WETSUIT,7,Surf,Year-round necessity in HB water,The Pacific here rarely tops 70 degrees. Rubber is not optional most of the year.
+36,SATURN,6,History,Moon rocket with a stage built right here,The third stage of the Saturn V moon rocket was built at the Douglas plant in Huntington Beach. Every Apollo crew that reached the Moon rode hardware assembled in Surf City.
+37,GLASSY,6,Surf,Perfect no-wind morning conditions,"When the surface goes glassy at first light, everything else can wait."
+38,VANS,4,Events,Title sponsor of the US Open of Surfing,"The Vans US Open of Surfing, the world's biggest surf competition, takes over the pier southside every summer."
+39,EGRET,5,Nature,Tall white wader in the wetlands,Snowy and great egrets stalk the Bolsa Chica channels at low tide.
+40,WARNER,6,Streets,The avenue that takes you to Sunset Beach,Warner Avenue runs from the harbour clear across the city. The Warner and PCH corner is your gateway to Sunset Beach.
+41,WIPEOUT,7,Surf,The fall every surfer knows by heart,"The crash at the end of a ride, made famous far beyond the lineup by the 1963 surf-rock hit of the same name. Every HB surfer has a personal highlight reel."
+42,CELERY,6,History,The crop that ruled HB before oil did,"Before the 1920 oil boom, the peat soil around Huntington Beach grew so much celery the area was called the Celery Capital. Trainloads rolled out on the Southern Pacific line."
+43,LOCALS,6,Culture,Who gets the best peaks at dawn,Every break has its regulars. Respect goes a long way at the pier.
+44,MARINA,6,Schools,Vikings territory,Marina High has repped the northwest side since 1963. The Vikings name came along two years later.
+45,BARREL,6,Surf,"Inside the wave, the whole point",Getting barreled at the pier on a south swell is the local rite of passage.
+46,TUESDAY,7,Events,The night Main Street kicks out the cars,"Every Tuesday evening, Main Street closes to traffic for Surf City Nights, a farmers market and street fair. It is the night the tourist strip turns back into a small town."
+47,PLOVER,6,Nature,Tiny protected shorebird on HB sand,Western snowy plovers are why parts of the beach are roped off. They weigh about as much as a golf ball.
+48,HENRY,5,History,The Huntington the city is named for,"Henry Huntington, the railroad magnate whose Pacific Electric line put the town on the map. It took his name in 1903, and his Red Cars rolled in the next year."
+49,LINEUP,6,Surf,Where surfers wait their turn,The pier lineup is a hierarchy. Watch before you paddle to the peak.
+50,STRAND,6,Places,The shopping block at 5th and PCH,"The Strand at Downtown HB, the 2009 development that brought a hotel and restaurants to 5th and PCH."
+51,CUTBACK,7,Surf,The turn that carves back toward the power,A cutback swings the surfer back toward the breaking part of the wave to stay in its power. It is the bread-and-butter turn you will see all day from the pier rail.
+52,TROLLEY,7,History,How Angelenos reached HB before freeways,Pacific Electric Red Cars ran from LA to the HB pier. The trolley made this a beach-day town a century before the 405.
+53,HARBOUR,7,Places,"HB's waterfront neighborhood, with a fancy U","Huntington Harbour, the only part of town that spells itself the British way. Five islands, endless docks."
+54,SKIM,4,Beach,Board sport for the last inch of ocean,"Skimboarders sprint along the wet sand, drop their boards on the thin wash and glide into the shorebreak. HB's flat sand and punchy inside make it a natural playground."
+55,DERRICK,7,History,The oil structures that once lined PCH,"Oil derricks covered HB's coastline for decades. A few working pumps still nod away behind fences around town, the last traces of the boom."
+56,BLUFFS,6,Places,The high ground along PCH with the ten-mile view,"Bluff Top Park rides the low cliffs along PCH with views up and down the coast. At its north end, the sand below is Dog Beach, where the town's pups get their ocean time."
+57,JETTY,5,Surf,Rock structure that shapes the waves near the river mouth,"The Santa Ana River jetties mark HB's southern surf boundary, and some of its most consistent waves."
+58,DEAN,4,Culture,Jan's partner on the song that named the city,Jan and Dean's 1963 hit Surf City gave HB its nickname. Two girls for every boy.
+59,PELICAN,7,Nature,Big-billed glider cruising past the lineup,"Brown pelicans nearly vanished when DDT thinned their eggshells, and spent decades on the endangered list before recovering in 2009. Today squadrons glide past the pier like it never happened."
+60,JACKS,5,Icons,Surf shop holding down Main and PCH since 1957,"Jack Hokanson opened Jack's Surfboards at Main and PCH in 1957, one of California's first true surf shops. The family-run flagship still anchors the busiest corner in town."
+61,GRUNION,7,Nature,Little silver fish that comes ashore by moonlight,"On summer nights after a full or new moon, grunion ride waves onto the wet sand to lay their eggs. Watching a run at Bolsa Chica State Beach is a classic late-night outing."
+62,AIRSHOW,7,Events,Jets over the pier every fall,The Pacific Airshow draws some of the biggest crowds of the year to the waterfront each fall. The Thunderbirds and Snowbirds use the pier as their centerline.
+63,BENSON,6,History,First women's champion crowned at the pier in 1959,Linda Benson won the women's title at the very first West Coast Surfing Championships at the pier in 1959. That contest grew up to become the US Open of Surfing.
+64,FAME,4,Culture,"Surfing Walk of ___, on Main Street",The Surfing Walk of Fame at PCH and Main has honored surf legends since 1994. Check the sidewalk next time you cross.
+65,DWIGHT,6,Eats,Beach stand slinging cheese strips since 1932,"Dwight Clapp opened the city's first beach concession in 1932. Nearly a century later, his stand's cheese strips are still a beach-day ritual."
+66,TALBERT,7,Streets,Avenue named for an early HB family,"Tom Talbert, early county supervisor and HB pioneer. His name is on the avenue and half the old maps."
+67,MEADOW,6,History,___lark: HB's former airport,"Meadowlark Airport operated until 1989. The runway is a neighborhood of homes now, but old-timers still remember planes coming in low over Warner."
+68,MONARCH,7,Nature,Orange royalty wintering in a local grove,Monarch butterflies spend the winter clustered in the eucalyptus at Norma Brandel Gibbs Park. Volunteers restored the grove and planted milkweed to keep them coming back.
+69,PERQS,5,Eats,"Main Street's oldest bar, live bands and all","Perqs has been pouring on Main Street since 1974, making it the oldest bar downtown. Blues great Walter Trout treated it as his home stage for years."
+70,CRUISE,6,Events,___ of Lights: December in the harbour,The Cruise of Lights has toured Huntington Harbour's decorated waterfront homes at holiday time since 1962.
+71,CORKY,5,Surf,First-name surf legend who made riding waves a paying job,"Corky Carroll is widely credited as the first surfer to go fully professional, winning more than 100 contests. His Huntington Beach surf school has put beginners on their first wave since 1996."
+72,NEWLAND,7,History,HB's oldest house sits on this family's land,"The Newland House, built in 1898, is the oldest residence in HB, kept by the historical society at Beach and Adams."
+73,WIEDER,6,Places,Bluff-top regional park named for a county trailblazer,Harriett Wieder was the first woman elected to the Orange County Board of Supervisors and a former HB mayor. The regional park on the bluff above Bolsa Chica carries her name.
+74,SHUFFLE,7,Beach,The slide-step every HB wader should know,"Round stingrays love the warm shallows here, so lifeguards teach the stingray shuffle: slide your feet and the rays scoot away. One day in 2019 saw 176 people stung."
+75,KANOA,5,Surf,HB-raised Olympian with back-to-back US Open wins,"Kanoa Igarashi grew up in Huntington Beach and won the US Open of Surfing at the pier two years running, 2017 and 2018. He took silver when surfing debuted at the Tokyo Olympics."
+76,GUSHER,6,History,What Bolsa Chica No. 1 became in November 1920,"On November 6, 1920, the Bolsa Chica No. 1 well blew in at 1,742 barrels a day. The boom that followed more than tripled the town's population."
+77,PASEA,5,Places,The hotel on the bluff at Pacific City,"The Pasea Hotel opened in 2016, a year after Pacific City next door. Best rooftop view of the pier in town."
+78,OLIVE,5,Streets,Tree-named downtown avenue where surf history lives,Olive Avenue is one of downtown's original tree-named streets and home to the International Surfing Museum. Not bad for a block most visitors walk right past.
+79,SANCHOS,7,Eats,Surf-style taco shack across PCH from the sand,Sancho's Tacos grew from backyard cookouts into a beloved taco stop right on PCH. Locals cross the highway barefoot for the tri-tip OG taco.
+80,SHIPLEY,7,Nature,Central Park's nature center,"The Shipley Nature Center, 18 acres of restored habitat inside Central Park, volunteer-run and free."
+81,GILBERT,7,Places,One of the five man-made islands in the Harbour,Gilbert Island is one of five man-made islands dredged into existence when Huntington Harbour construction began in 1963. Most homes there come with a boat dock out back.
+82,BEAR,4,History,Golden PCH nightspot where Janis Joplin played,"The Golden Bear on PCH was Huntington Beach's legendary little music room, hosting Janis Joplin, Neil Young and Jackson Browne. It came down in 1986, and locals still miss it."
+83,CORBINA,7,Nature,Wary summer surf fish that hunts in inches of water,"The California corbina prowls the wet sand in summer, rooting out sand crabs in water barely deep enough to cover its back. Surf anglers know how hard it is to fool."
+84,SLATER,6,Streets,"An HB avenue, not the 11-time world champ","Slater Avenue crosses the whole city. No relation to Kelly, but tell your out-of-town friends whatever you want."
+85,FREETH,6,History,Gave HB's first surfing demonstration in 1914,"George Freeth, 'the man who can walk on water,' demonstrated surfing at the pier's 1914 rededication. HB's surf story starts with him."
+86,WORTHY,6,Places,Park named for the man who built the park system,"Worthy Park honors Norman Worthy, the parks director who assembled 626 acres of parkland across the city. For the man who built HB's park system, the name fits."
+87,RUBYS,5,Eats,Red-roofed diner that capped the pier for 28 years,"From 1993 to 2021, the walk to the end of the pier finished at Ruby's, a shiny red-and-white diner over the waves. A burger and shake above the surf was a rite of passage."
+88,DWYER,5,Schools,Middle school named for the woman who did every job in it,"Ethel Dwyer attended the original schoolhouse on the site, then spent her career there as teacher, librarian, nurse and dean. In the 1980s the school took her name."
+89,AMIGOS,6,History,The friends who fought for the wetlands,Amigos de Bolsa Chica formed in 1976 to stop a marina and housing project planned for the wetlands. Their fight led the state to buy 880 acres and sparked one of the largest wetland restorations in Southern California.
+90,FURUTA,6,History,Family farm at Historic Wintersburg,The Furuta family bought their Wintersburg farm in 1908 and built the bungalow that still stands in 1912. It is one of the last surviving pre-WWII Japanese American settlements in the country.
