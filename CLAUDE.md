@@ -1,43 +1,94 @@
-# I Win, working context
+# blockparty, working instructions
 
-Read this first. It is the handoff context for any Claude session working in this repo.
+Read this before changing anything. Written for a fresh session with no prior
+context on this repo.
 
-## What this is
+## Shared rules come first
 
-I Win is a closed-loop, play-money prediction market for friend groups. Create a group, drop an invite link in the group chat, bet points on things the group cares about (including golf matches), settle up, talk trash on the leaderboard. It is a Search Squad Six (SS6) experiment at OddBytes. Mike Strouss is PO / GTM lead. No real money anywhere in the system, ever, in v1.
+The SS6 folder's `CLAUDE.md` carries the rules that apply to every SS6 project:
+who you are writing for, the writing conventions, and how work arrives from the
+planner. Read it before this file. In short, and worth repeating here because
+they get broken most often:
 
-## Repo map
+- Mike is PO and GTM lead. He is not an engineer and does not read code. Plain
+  language, no jargon, no walking through code.
+- Never use em dashes. Never use emojis.
+- Log what you did in `CHANGELOG.md`, including what broke and what you could not
+  verify.
 
-- PLAN.md: the build plan. Source of truth for architecture, data model, mechanics, and phasing. Read it before doing anything.
-- index.html: the live clickable mock, deployed by GitHub Pages at https://mike-oddbytes.github.io/blockparty/. Single file, React + Tailwind + Babel via CDN, all state in memory. This is a demo, not the product codebase.
-- group-chat-markets.jsx: the same mock as an importable React component.
-- hb-daily.html, hb-words.csv: a different project (HB Daily). Not part of I Win. Do not touch.
+## The name trap, read this twice
 
-The repo slug says blockparty; that was a working name. The product is I Win.
+This repo is called `blockparty` and it was named before either product inside it.
+It is **not** the Block Party local news initiative. Two unrelated things share it:
 
-## Decisions locked (do not relitigate without Mike)
+- **HB Daily** is the live product and almost certainly what your card is about.
+  `hb-daily.html` is the whole game in one file. `hb-words.csv` is the word list.
+  Live at https://mike-oddbytes.github.io/blockparty/hb-daily.html
+- **I Win leftovers.** `group-chat-markets.jsx` and `PLAN.md` are from an unrelated
+  prediction-markets concept that now has its own repo, `Mike-Oddbytes/i-win`.
+  Ignore them here. They should be deleted once Mike says so.
 
-Mobile-first PWA. Supabase backend, all money-critical logic in Postgres functions, row-level security everywhere, clients never write balances. Guest-first onboarding: invite link to placed bet in under 20 seconds, anonymous device-bound session, optional email magic link upgrade for recovery only. Parimutuel pools: winners split the whole pot pro-rata to stake; if nobody backed the winning outcome, refund everyone. Resolution: creator proposes, 24 hour dispute window, majority of bettors can force a vote, plurality wins, ties void and refund. Golf markets (single hole, 9 holes, 18 holes, outcomes are tagged players) share the generic multi-outcome engine with yes/no markets. Group chat is iMessage/SMS, so no bot: engagement comes from dynamic OG link-preview cards and one-tap Web Share messages.
+Until Aug 6 2026 this file described I Win and told sessions not to touch
+`hb-daily.html`, which is the opposite of the truth. If anything you read in this
+repo contradicts that, trust this file and `CONTEXT.md`.
 
-Payout math in the mock is verified: pot conserves exactly across all outcomes, unbacked winners refund. Keep that property in any reimplementation and test for it.
+There is also a Lovable app called `blockparty-app` and another called
+`localbrief`. Those are front doors for signups. Neither is this repo.
 
-## How work arrives
+## What HB Daily is
 
-Work is sequenced in Mike's SS6 planner. You will be handed either a session card ("Do ONLY Session 1A - <name>" with a "Done when:" line) or a numbered batch of small changes. The current roadmap is Phases 0 through 4 (scaffold; identity and groups; markets and betting; settlement; share and polish), ten sessions, each with its own Done when. It mirrors the Milestones section of PLAN.md.
+A daily word game for Huntington Beach locals. A local Wordle: the word length
+varies from four to seven letters, six guesses, an optional hint, streaks, stats and
+share text. One new word a day. Every word has a short "why this word" note shown
+after solving, which is the real point: the game is the habit and the local trivia
+is what it carries.
 
-Rules that matter:
+Single file, no dependencies, nothing to build or install. Open it in a browser.
 
-- Do only the session or batch you were handed. Do not run ahead, even when the next step is obvious.
-- "Done when" is the acceptance test. Verify it and say plainly whether it is met. Untested work is not done.
-- Commit in logical chunks with clear messages. Do not bundle unrelated changes.
-- Push back before building if a card seems wrong or too big. Suggest a split rather than sprawling.
-- End with a short factual recap: completed, deliberately left, anything that changes the plan. Mike uses it to update the planner.
-- You cannot reach the planner from chat (it is behind Supabase Auth). Say what needs recording and let Mike do it.
+`CONTEXT.md` is the fuller handoff doc. `PRODUCT-ROADMAP.md` is the long-term
+vision. The planner is the source of truth for what happens next and in what order.
 
-## Writing conventions
+## Decisions already made, do not reopen casually
 
-Never use em dashes. Never use emojis, including in UI copy. Call an experiment's failure condition a Threshold, never a kill signal or kill criteria. Keep budget figures and brand or formatting advice out of experiment design documents.
+1. **Game first.** The game is the front door. News and local content are layers on
+   top of a proven habit, not the product.
+2. **Huntington Beach only** until the habit is proven.
+3. **No custom domain for the pilot.** Shares point at the GitHub Pages address.
+   Deferred, not cancelled.
+4. **No emojis anywhere,** including the share grid, which uses text characters.
+5. **Crime content is a dry factual line, never a discussion thread.** This is the
+   deliberate anti-Nextdoor decision.
+6. **Leaderboards stay switched off** until roughly 50 players a day.
+7. **Hand-curated before automated.** No newsroom cost structure, ever.
 
-## Design language of the mock
+## Things worth knowing before you touch the file
 
-Dark zinc palette, hairline borders, underline tabs, uppercase micro-labels, tabular numerals for all point values, colored initial avatars instead of emoji, color reserved for meaning (green/red for yes/no and P/L, player colors on golf odds bars, gold for winners). Keep this restraint in the real build.
+The settings sit at the top of the script block:
+
+- `EPOCH` is the date of puzzle number one, currently Aug 4 2026. The word of the
+  day is worked out from how many days have passed since then.
+- `SITE_URL` is added to the end of the share text. It is still the placeholder
+  `hbdaily.com` and pointing it at the real address is an open planner card.
+- `GRID_STYLE` is `"text"`. It can flip to coloured squares later, but those use
+  emoji characters, so leave it alone unless Mike asks.
+
+The word list exists twice: in `hb-words.csv` and as a copy inside the HTML. **Keep
+them in step.** The CSV is the source of truth for word content. It currently covers
+56 days and the blurbs have not been fact-checked yet.
+
+To test without playing: add `?day=50` to jump to a puzzle, `?preview=win` or
+`?preview=lose` to see the end-of-game screen without solving, and `?reset=1` to wipe
+saved progress. They combine.
+
+Saved progress lives in the browser only, under keys starting `hbd_`. There are no
+accounts, so anything saved is lost if someone switches device. That is what Phase 3
+is for.
+
+## Before claiming anything works
+
+The scoring was checked with unit tests and it matches standard Wordle rules. There
+is no dictionary check, so any letters of the right length are accepted.
+
+There is no test runner in this repo. If you change the game, open it in a browser
+and actually play it, including the share button, and say in the recap which of
+those you did and which you did not.
