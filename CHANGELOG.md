@@ -6,6 +6,19 @@ verified, not only what shipped.
 Note this repo holds HB Daily. The `group-chat-markets.jsx` and `PLAN.md` files are
 leftovers from I Win, which now lives in its own repo.
 
+## Aug 7 2026: HB Daily moved out, redirect left behind
+
+**HB Daily now lives in `Mike-Oddbytes/hb-daily-game`**, a new repo created by
+connecting a new Lovable project to GitHub (Session 2E; decided Aug 7 that all SS6
+projects build in a shared GitHub with Lovable hosting). `hb-daily.html` and
+`hb-words.csv` were copied there byte-identical and the game was verified playing
+from the Lovable preview, streak and share included. The word list was not touched.
+
+**`hb-daily.html` here is now a redirect page** pointing at the new home, since old
+links may exist. `hb-words.csv` stays as a historical copy; the live one is in the
+new repo. Seeding (card 1D) had posted no links anywhere, confirmed before the move.
+Future HB Daily work happens in the new repo and its CHANGELOG.
+
 ## Aug 7 2026: word list fact-checked, resequenced, extended to 90 days (Session 1C)
 
 **The word list now covers 90 days**, up from 56, in both `hb-words.csv` and the WORDS
